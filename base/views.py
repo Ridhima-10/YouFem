@@ -40,7 +40,7 @@ def landing(request):
         cont_name=request.POST['cont_name']
         cont_email=request.POST['cont_email']
         cont_msg=request.POST['cont_msg']
-        youfemail="info.youfem@gmail.com"
+        youfemail="youfem.bv@gmail.com"
 
         finalmessage= "User Name :" + cont_name + "\n Email :" +cont_email +"\n Feedback :" + cont_msg
         print(cont_email)
@@ -90,9 +90,7 @@ def loginPage(request):
         if user is not None:
             login(request,user)            
 
-            if usertype == 'admin':
-                return redirect('./admin/')
-            elif usertype == 'User':
+            if usertype == 'user':
                 return redirect('landing')
             elif usertype == 'Professional':
                 return redirect('professional-profile')
@@ -238,9 +236,35 @@ def laws(request,pk):
 def medical(request):
     professionals= Professional.objects.filter(profession='Doctor')
     context ={'professionals':professionals}
+    if request.method=="POST":
+        message_profemail=request.POST['message-profemail']
+        message_fname=request.POST['message-fname']
+        message_lname=request.POST['message-lname']
+        message_date=request.POST['message-date']
+        message_time=request.POST['message-time']
+        message_email=request.POST['message-email']
+        message_phone=request.POST['message-phone']
+        message=request.POST['message']
 
-    #return render(request,'base/mental.html', context)
-    return render(request,'base/medical.html', context)
+        finalmessage= "User Name :" + message_fname +" "+message_lname +"\n Message :" +message +"\n Time :" + message_time+"\n Date :"+message_date +"\n Contact Number :"+message_phone
+
+
+        send_mail(
+
+            message_fname+" " +message_lname,#subject
+            finalmessage,#message
+            #message_email,# from email
+            message_profemail,
+            
+            [message_profemail],#to email
+
+        )
+
+        return render(request,'base/medical.html',context)
+
+    else:
+        return render(request,'base/medical.html',context)
+    
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 @login_required(login_url='login')
@@ -248,8 +272,34 @@ def mental(request):
     professionals= Professional.objects.filter(profession='Psychologist')
     psychoDisorder = PsychoDisorders.objects.all()
     context ={'professionals':professionals,'psychoDisorder':psychoDisorder}
+    if request.method=="POST":
+        message_profemail=request.POST['message-profemail']
+        message_fname=request.POST['message-fname']
+        message_lname=request.POST['message-lname']
+        message_date=request.POST['message-date']
+        message_time=request.POST['message-time']
+        message_email=request.POST['message-email']
+        message_phone=request.POST['message-phone']
+        message=request.POST['message']
 
-    return render(request,'base/mental.html', context)
+        finalmessage= "User Name :" + message_fname +" "+message_lname +"\n Message :" +message +"\n Time :" + message_time+"\n Date :"+message_date +"\n Contact Number :"+message_phone
+
+
+        send_mail(
+
+            message_fname+" " +message_lname,#subject
+            finalmessage,#message
+            #message_email,# from email
+            message_profemail,
+            
+            [message_profemail],#to email
+
+        )
+
+        return render(request,'base/mental.html',context)
+
+    else:
+        return render(request,'base/mental.html',context)
 
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
