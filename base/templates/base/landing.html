@@ -58,7 +58,7 @@
             {% if request.user.is_authenticated %}
 
             <li>
-              <a href="#">{{request.user.first_name}}</a>
+              <a href="{%url 'professional-profile' %}">{{request.user.first_name}}</a>
               <i class="bx bxs-chevron-down mental-arrow arrow"></i>
               <ul class="mental-sub-menu sub-menu">
                 <li><a href="{%url 'logout' %}">Logout</a></li>
@@ -251,18 +251,19 @@ products, and healthcare products,  will be available at the best prices.
               <p>
                 Drop your queries here !!
               </p>
-              <form action="#">
+              <form action="#" method="post"> 
+                {% csrf_token %}
                 <div class="input-box">
-                  <input type="text" placeholder="Enter your name" />
+                  <input type="text" name="cont_name" placeholder="Enter your name" />
                 </div>
                 <div class="input-box">
-                  <input type="text" placeholder="Enter your email" />
+                  <input type="text" name="cont_email" placeholder="Enter your email" />
                 </div>
                 <div class="input-box message-box">
-                  <input type="text" placeholder="Enter your message" />
+                  <input type="text" name="cont_msg" placeholder="Enter your message" />
                 </div>
                 <div class="button">
-                  <input type="button" value="Send Now" />
+                  <input type="submit" value="Send Now" />
                 </div>
               </form>
             </div>
